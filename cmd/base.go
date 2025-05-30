@@ -9,6 +9,11 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// trace prints a debug message
+func trace(msg string) {
+	fmt.Printf("[DEBUG] %s\n", msg)
+}
+
 var actionType string
 
 var rootCmd = &cobra.Command{
@@ -19,18 +24,47 @@ movie data from The Movie Database (TMDB).`,
 	Run: func(cmd *cobra.Command, args []string) {
 		switch actionType {
 		case "playing":
-			data, err := internal.FetchMovie(internal.Playing)
+			trace("entering in playing")
+			response, err := internal.FetchMovie(internal.Playing)
 			if err != nil {
-				fmt.Printf("Error: %v\n", err)
+				internal.PrintResult(fmt.Sprintf("Error: %v", err))
 				return
 			}
-			fmt.Printf("Success! Got data: %s\n", string(data))
+
+			internal.PrintResult(fmt.Sprintf("Found %d movies now playing:", len(response.Results)))
+			for _, movie := range response.Results {
+				internal.PrintMovie(movie)
+			}
 		case "popular":
-			internal.PrintResult("popular...")
+			response, err := internal.FetchMovie(internal.Popular)
+			if err != nil {
+				internal.PrintResult(fmt.Sprintf("Error: %v", err))
+				return
+			}
+			internal.PrintResult(fmt.Sprintf("Found %d popular movies:", len(response.Results)))
+			for _, movie := range response.Results {
+				internal.PrintMovie(movie)
+			}
 		case "top":
-			internal.PrintResult("top...")
+			response, err := internal.FetchMovie(internal.TopRated)
+			if err != nil {
+				internal.PrintResult(fmt.Sprintf("Error: %v", err))
+				return
+			}
+			internal.PrintResult(fmt.Sprintf("Found %d top rated movies:", len(response.Results)))
+			for _, movie := range response.Results {
+				internal.PrintMovie(movie)
+			}
 		case "upcoming":
-			internal.PrintResult("upcoming...")
+			response, err := internal.FetchMovie(internal.Upcoming)
+			if err != nil {
+				internal.PrintResult(fmt.Sprintf("Error: %v", err))
+				return
+			}
+			internal.PrintResult(fmt.Sprintf("Found %d upcoming movies:", len(response.Results)))
+			for _, movie := range response.Results {
+				internal.PrintMovie(movie)
+			}
 		default:
 			internal.PrintResult("Error: You must provide a valid --type (playing, popular, top, upcoming)")
 		}
