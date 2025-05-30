@@ -19,15 +19,20 @@ movie data from The Movie Database (TMDB).`,
 	Run: func(cmd *cobra.Command, args []string) {
 		switch actionType {
 		case "playing":
-			internal.PrintSuccess("playing...")
+			data, err := internal.FetchMovie(internal.Playing)
+			if err != nil {
+				fmt.Printf("Error: %v\n", err)
+				return
+			}
+			fmt.Printf("Success! Got data: %s\n", string(data))
 		case "popular":
-			internal.PrintSuccess("popular...")
+			internal.PrintResult("popular...")
 		case "top":
-			internal.PrintSuccess("top...")
+			internal.PrintResult("top...")
 		case "upcoming":
-			internal.PrintSuccess("upcoming...")
+			internal.PrintResult("upcoming...")
 		default:
-			internal.PrintSuccess("Error: You must provide a valid --type (playing, popular, top, upcoming)")
+			internal.PrintResult("Error: You must provide a valid --type (playing, popular, top, upcoming)")
 		}
 	},
 }
