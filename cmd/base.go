@@ -10,9 +10,9 @@ import (
 )
 
 // trace prints a debug message
-func trace(msg string) {
-	fmt.Printf("[DEBUG] %s\n", msg)
-}
+// func trace(msg string) {
+// 	fmt.Printf("[DEBUG] %s\n", msg)
+// }
 
 var actionType string
 
@@ -24,7 +24,6 @@ movie data from The Movie Database (TMDB).`,
 	Run: func(cmd *cobra.Command, args []string) {
 		switch actionType {
 		case "playing":
-			trace("entering in playing")
 			response, err := internal.FetchMovie(internal.Playing)
 			if err != nil {
 				internal.PrintResult(fmt.Sprintf("Error: %v", err))
