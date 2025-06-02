@@ -2,6 +2,9 @@
 
 A beautiful command-line interface tool to fetch and display movie information from The Movie Database (TMDB) API. This project was inspired by [roadmap.sh TMDB CLI project](https://roadmap.sh/projects/tmdb-cli).
 
+![image](https://github.com/user-attachments/assets/3c40154a-8d28-4e34-8b87-a08bc7dbd5fa)
+
+
 ## ✨ Features
 
 - Fetch and display movies by different categories:
